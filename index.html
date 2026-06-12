@@ -557,15 +557,24 @@ function renderBets(){
   const tbody=document.getElementById('bets-tbody');
   if(!rows.length){tbody.innerHTML=`<tr><td colspan="12" class="empty">Sin resultados</td></tr>`;return;}
 
+  // Contador global de apuestas por liga
+  const ligaCount={};
   tbody.innerHTML=rows.map(({p,a,pi,ai},i)=>{
     const plC=a.pl>0?'pl-pos':a.pl<0?'pl-neg':'';
     const evC=a.ev_pct>0?'pl-pos':a.ev_pct<0?'pl-neg':'';
     const rid=`dr-${i}`;
+    if(!ligaCount[p.liga]) ligaCount[p.liga]={};
+    const apKey=`${p.id}-${ai}`;
+    if(!ligaCount[p.liga][apKey]) ligaCount[p.liga][apKey]=Object.keys(ligaCount[p.liga]).length+1;
+    const numLiga=ligaCount[p.liga][apKey];
     return`
       <tr class="expandable" onclick="toggleDetail('${rid}')">
-        <td style="color:var(--text3);font-size:12px">${p.id}</td>
+        <td style="color:var(--text3);font-size:12px;white-space:nowrap">
+          <div>${i+1}</div>
+          <div style="font-size:10px">${p.liga}·${numLiga}</div>
+        </td>
         <td><div class="partido-cell">${p.partido}</div>
-            <div class="partido-sub">J${p.jornada} · ${p.fecha}${p.resultado_partido?' · <strong>'+p.resultado_partido+'</strong>':''}</div></td>
+            <div class="partido-sub">${LIGA_NAMES[p.liga]||p.liga} · J${p.jornada} · ${p.fecha}${p.resultado_partido?' · <strong>'+p.resultado_partido+'</strong>':''}</div></td>
         <td>${badge(LIGA_NAMES[p.liga]||p.liga,'liga')}</td>
         <td style="max-width:180px">${a.mercado}</td>
         <td>${tipoBadge(a.tipo)}</td>
