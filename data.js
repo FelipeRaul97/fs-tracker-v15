@@ -28,7 +28,7 @@ const TRACKER_DATA = [
         "cuota": 1.35,
         "prob": 78.2,
         "ev_pct": null,
-        "estado": "PENDIENTE",
+        "estado": "GANADA",
         "pl": 0.35
       },
       {
