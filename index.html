@@ -503,7 +503,9 @@ async function saveToGitHub(){
     document.getElementById('save-status').textContent='Error al guardar';
   }finally{
     btn.disabled=false;
-    btn.innerHTML='💾 Guardar <span id="unsaved-dot" class="unsaved-dot" style="display:'+(_unsaved?'inline-block':'none')+'"></span>';
+    btn.innerHTML='💾 Guardar';
+    const dot=document.getElementById('unsaved-dot');
+    if(dot) dot.style.display=_unsaved?'inline-block':'none';
   }
 }
 
