@@ -347,10 +347,14 @@ function loadLocalData(){
   return JSON.parse(JSON.stringify(TRACKER_DATA));
 }
 
+function setDot(visible){
+  const d=document.getElementById('unsaved-dot');
+  if(d) d.style.display=visible?'inline-block':'none';
+}
 function persistLocal(){
   localStorage.setItem('forescore_data', JSON.stringify(_DATA));
   _unsaved = true;
-  document.getElementById('unsaved-dot').style.display='inline-block';
+  setDot(true);
   document.getElementById('save-status').textContent='Cambios sin guardar';
 }
 
@@ -494,7 +498,7 @@ async function saveToGitHub(){
     // 4. Clear unsaved state
     localStorage.removeItem('forescore_data');
     _unsaved=false;
-    document.getElementById('unsaved-dot').style.display='none';
+    setDot(false);
     document.getElementById('save-status').textContent='Guardado ✓ '+now;
     toast('Guardado en GitHub ✓ — Pages actualiza en ~30s');
 
@@ -920,7 +924,7 @@ document.getElementById('token-modal').addEventListener('click',e=>{if(e.target=
 renderMetrics();
 renderBets();
 if(localStorage.getItem('forescore_data')){
-  document.getElementById('unsaved-dot').style.display='inline-block';
+  setDot(true);
   document.getElementById('save-status').textContent='Cambios locales pendientes';
 }
 </script>
